@@ -153,7 +153,7 @@ export default class Moviegrabber extends Plugin {
 
 		var dir = dir != '' ? `/${dir}/` : '';
 		
-		if (!(await this.app.vault.adapter.exists('dir'))) {
+		if (!(await this.app.vault.adapter.exists(dir))) {
 			var n = new Notice(`Folder for ${type}: ${dir} does not exist!`)
 			n.noticeEl.addClass("notice_error")
 			return;
