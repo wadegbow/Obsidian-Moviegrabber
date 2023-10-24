@@ -191,9 +191,9 @@ export default class Moviegrabber extends Plugin {
 		`genre: [${itemData.Genre}]\n`+
 		`length: ${ itemData.Runtime.split(" ")![0] }\n`+
 		(type == 'movie' ? '' : `seasons: ${itemData.totalSeasons}\n`) +
-		`seen: false\n`+
 		(this.settings.YouTube_API_Key != '' ? `trailer_embed: ${await this.getTrailerEmbed(itemData.Title, itemData.Year)}\n` : '') +
 		`poster: "${itemData.Poster}"\n`+
+		`seen: false\n` +
 		`---\n`
 
 		var tFile = await this.app.vault.create(path, content);
