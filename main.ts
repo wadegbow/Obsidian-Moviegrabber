@@ -16,8 +16,8 @@ export default class Moviegrabber extends Plugin {
 			id: 'search-movie',
 			name: 'Search movie',
 			callback: () => {
-				if (this.settings.OMDb_API_Key == '' || this.settings.YouTube_API_Key == '') {
-					var n = new Notice("missing one or more API keys!")
+				if (this.settings.OMDb_API_Key == '') {
+					var n = new Notice("missing OMDB key")
 					n.noticeEl.addClass("notice_error");
 					return;
 				}
@@ -31,8 +31,8 @@ export default class Moviegrabber extends Plugin {
 			id: 'search-series',
 			name: 'Search series',
 			callback: () => {
-				if (this.settings.OMDb_API_Key == '' || this.settings.YouTube_API_Key == '') {
-					var n = new Notice("missing one or more API keys!")
+				if (this.settings.OMDb_API_Key == '') {
+					var n = new Notice("missing OMDB key")
 					n.noticeEl.addClass("notice_error");
 					return;
 				}
@@ -183,22 +183,18 @@ export default class Moviegrabber extends Plugin {
 		var content = 
 		`---\n`+
 		`type: ${type}\n`+
-		`country: ${itemData.Country}\n`+
 		`title: ${itemData.Title}\n`+
 		`year: ${itemData.Year}\n`+
 		`director: ${itemData.Director}\n`+
+		`country: ${itemData.Country}\n`+
 		`actors: [${itemData.Actors}]\n`+
 		`genre: [${itemData.Genre}]\n`+
 		`length: ${ itemData.Runtime.split(" ")![0] }\n`+
 		(type == 'movie' ? '' : `seasons: ${itemData.totalSeasons}\n`) +
-		`seen:\n`+
-		`rating: \n`+
-		`found_at: \n`+
-		`trailer_embed: ${await this.getTrailerEmbed(itemData.Title, itemData.Year)}\n`+
+		`seen: false\n`+
+		(this.settings.YouTube_API_Key != '' ? `trailer_embed: ${await this.getTrailerEmbed(itemData.Title, itemData.Year)}\n` : '') +
 		`poster: "${itemData.Poster}"\n`+
-		`availability:\n`+
-		`---\n`+
-		`${itemData.Plot}`
+		`---\n`
 
 		var tFile = await this.app.vault.create(path, content);
 		if (this.settings.SwitchToCreatedNote) {
