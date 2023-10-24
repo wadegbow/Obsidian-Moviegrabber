@@ -159,7 +159,7 @@ export default class Moviegrabber extends Plugin {
 			return;
 		}
 
-		var path = `${dir}${item.Title.replace(/[/\\?%*:|"<>]/g, '')}.md`
+		var path = `${dir}${item.Title.replace(/[/\\?%*:|"<>]/g, '')} (${item.Year}).md`
 		
 		if (this.app.vault.getAbstractFileByPath(path) != null) {
 			var n = new Notice(`Note for ${item.Title} already exists!`);
